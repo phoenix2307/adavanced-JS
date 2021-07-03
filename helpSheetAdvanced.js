@@ -1,5 +1,3 @@
-'use strict';
-
 const inputUah = document.querySelector('#uah'),
     inputUsd = document.querySelector('#usd');
 
@@ -8,6 +6,7 @@ const inputUah = document.querySelector('#uah'),
 inputUah.addEventListener('input', () => {
     const request = new XMLHttpRequest();
 
+    // request.open(метод GET или POST, url путь по которому будем делать запрос, async по умолчанию true, login, pass);
     request.open('GET', 'js/current.json');
     // заголовки
     request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
@@ -41,16 +40,15 @@ inputUah.addEventListener('input', () => {
         }
     });
 
-    // чаще используется событие load. Оно проще.
-    // Срабатывает только один раз, когда запрос полностью готов.
+    // чаще используется событие load. Оно проще. Срабатывает только один раз, когда запрос полностью готов.
     request.addEventListener('load', () => {
         if (request.status === 200) {
             const data = JSON.parse(request.response);
             inputUsd.value = (+inputUah.value / data.current.usd).toFixed(2);
+            // обратить внимание на то, как обращаемся к обьекту в переменной data -- data.current.usd
         } else {
             inputUsd.value = 'Что-то пошло не так';
         }
     });
-
 
 });
