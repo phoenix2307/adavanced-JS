@@ -347,4 +347,176 @@ new Promise(function(resolve, reject) {
 
 });
 
+
+**********************************************************************
+fetch();
+**********************************************************************
+
+Если в аргументах fetch мы указываем только url, то он сработает как по методу GET. То есть просто загрузит из этого url то, то там есть
+fetch('https://jsonplaceholder.typicode.com/todos/1') //получаем какой-то промис от сервера
+    .then(response => response.json()) // переводим этот промис с формата json в стандартный JS и отдаем дальше как промис!
+    .then(json => console.log(json)); // от предыдущего промиса, который пришел нам уже от .then(), выводим значение в консоль
+
+
+При использовании других методов, например POST, в аргументы fetch() добавляем объект, в котором указываем дополнительные параметры запроса:
+например body, headers
+
+***
+Реакция fetch() на ошибку http (404, 500 и т.п.)
+
+При таких ошибках fetch() вс равно отрпботает. Потому что для него самое главное получилось ли сделать запрос. Если получилось, но там пошли какие-то не те данные или неправильный адрес - это проконает, запрос прошел.
+Вот что для  fetch() главное. Но если не будет соединения, то тогда будет reject.
+
+***********************************************************************
+Методы массивов и Object.entries()
+    filter()    
+    map()
+    every / some
+    reduce()
+
+***
+filter()
+создание нового массива, состоящего из отфильтрованных по определенному условию/правилу  элементов
+
+const arr = ['nika', 'alexei', 'natali', 'joanne', 'maximus'];
+const newArr = arr.filter(name => name.length < 7);
+console.log(newArr);
+
+const arr2 = [5, 23, 8, 33, 44, 32, 9, 35, 46];
+const newArr2 = arr2.filter(name => name < 40 && name > 20);
+console.log(newArr2);
+
+!!!****!!!
+из примеров MDN:
+я так понимаю это правильная тема сначала написать функцию с алгоритмом действий. А потом вызывать ее в нужных arr.filter()
+это позволяет удобно  обрабатывать разные массивы с аналогичными задачами
+
+function isBigEnough(value) {
+  return value >= 10;
+}
+
+let filtered = [12, 5, 8, 130, 44].filter(isBigEnough);
+// массив filtered равен [12, 130, 44]
+
+В следующем примере filter() используется для фильтрации содержимого массива на основе входных данных.
+
+const fruits = ['apple', 'banana', 'grapes', 'mango', 'orange'];
+
+Элементы массива фильтруется на основе критериев поиска (query)
+
+ const filterItems = (query) => {
+    return fruits.filter((el) =>
+      el.toLowerCase().indexOf(query.toLowerCase()) > -1
+    );
+  }
+  
+  console.log(filterItems('ap')); // ['apple', 'grapes']
+  console.log(filterItems('an')); // ['banana', 'mango', 'orange']
+
+
+***
+map()
+возможность изменить каждый элемент массива и создает новый массив из таких элементов
+
+const names = ['IvaN', 'naTali', 'niKA', 'aleX'];
+const newNames = names.map(item => item.toLowerCase());
+console.log(newNames); // [ 'ivan', 'natali', 'nika', 'alex' ]
+
+const numbers = [23, 56, 85, 24, 14];
+const newNumbers = numbers.map(item => item * 10);
+console.log(newNumbers); //[ 230, 560, 850, 240, 140 ]
+
+
+!!!***!!!
+/ Рассмотрим пример:
+['1', '2', '3'].map(parseInt);
+// Хотя ожидаемый результат вызова равен [1, 2, 3],
+// в действительности получаем [1, NaN, NaN]
+
+// Функция parseInt часто используется с одним аргументом, но она принимает два.
+// Первый аргумент является выражением, а второй - основанием системы счисления.
+// В функцию callback Array.prototype.map передаёт 3 аргумента:
+// элемент, его индекс и сам массив.
+// Третий аргумент игнорируется parseInt, но не второй, следовательно,
+// возможна путаница. Смотрите запись в блоге для дополнительной информации.
+
+function returnInt(element) {
+  return parseInt(element, 10);
+}
+
+['1', '2', '3'].map(returnInt);
+// Результатом является массив чисел (как и ожидалось)
+
+// Простейший способ добиться вышеозначенного поведения и избежать чувства "чё за!?":
+['1', '2', '3'].map(Number); // [1, 2, 3]
+***
+every / some - возвращают булиновое значение!
+при переборе массива, если все/хотя бы один (every/some) элемент соответствует условию, то возвращается true
+
+const arr = [3, 4, 23, 34];
+const arr4 = arr.every(item => typeof (item) === 'number');
+console.log(arr4); // true
+
+const arr = [3, 4, 23, 34];
+const arr4 = arr.some(item => typeof (item) === 'number');
+console.log(arr4); // false
+
+***
+reduce
+схлопывает или собирает массив в одно целое
+то есть плюсует все в кучу или минусует...
+то есть это операции с элементами и проводим между ними  одну операцию, которая добавляется к итоговой переменной sum
+
+const formula = arr.reduce((sum, item) => sum + item, start)
+sum - итоговая переменная
+item - текущий элемент массива
+start - начальное значение sum (необязательно)
+
+const arr = [3, 5, 3, 7, 5, 6, 8, 4, 9];
+const res = arr.reduce((sum, item) => sum + item);
+console.log(res); // 50. Если использовать минус будет - 44
+
+const arr2 = ['IvaN', 'naTali', 'niKA', 'aleXeI'];
+const res2 = arr2.reduce((sum, item) => `${sum}, ${item}`);
+console.log(res2);
+
+! Интересно !
+Разворачивание массива массивов:
+var flattened = [[0, 1], [2, 3], [4, 5]].reduce(function(a, b) {
+  return a.concat(b);
+});
+// flattened равен [0, 1, 2, 3, 4, 5]
+
+***
+Object.entries()
+Превращает объект в матрицу - массив массивов
+То есть пара ключ значение превращается в массив из двух елементов
+
+// задача вывести из такого объекта массив имен
+
+const obj = {
+    ivan: 'persone',
+    ann: 'persone',
+    dog: 'animal',
+    cat: 'animal'
+};
+
+// 1. превращаем обект в массив массивов
+// 2. фильтруем там, где есть 'persone'
+// 3. создаем итоговый массив имен
+
+const newArr = Object.entries(obj)
+    .filter(item => item[1] === 'persone')
+    .map(item => item[0]);
+
+console.log(newArr);
+
+***
+//чейнинг
+const names3 = ['IvaN', 'naTali', 'niKA', 'aleXeI'];
+const var3 = names3.filter(item => item.length > 4).map(item => item.toUpperCase());
+console.log(var3); //[ 'NATALI', 'ALEXEI' ]
+
+
+
 */
