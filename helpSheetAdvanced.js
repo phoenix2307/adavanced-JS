@@ -572,4 +572,134 @@ indicators.style.cssText = `
 `;
 slider.append(indicators);
 
+************************************
+Local storage
+
+глобальный объект, точне свойство глобального объекта Window.localStorage
+
+Основные 4 команды
+
+localStorage.setItem() - отправить key & value
+localStorage.getItem() - получить key & value
+localStorage.removeItem() - удалить ключ
+localStorage.clear(); - очищает localStorage от всех данных
+
+localStorage.setItem('Alex', 'programmer');
+
+localStorage.getItem('Alex');
+localStorage.Alex = 'merried';
+localStorage['Alex'] = 'good man';
+console.log(localStorage.Alex);
+
+к ключу localStorage можно обращаться по синтаксису свойства объекта:
+localStorage.Alex
+'также его модно и менять, перезаписывать его значение
+при этом нет необходимости отправлять его повторно через setItem
+он мменяется автоматически' - мои личные наблюдения
+
+!!! Классный пример для того, чтобы тоглить кнопку!
+Пример работы с localStorage для реализауии тогла кнопки, которая переключает цвет формы
+
+const checkbox = document.querySelector('#checkbox'),
+      form = document.querySelector('form'),
+      change = document.querySelector('#color');
+
+if (localStorage.getItem('isChecked')) {
+    checkbox.checked = true;
+}
+
+if (localStorage.getItem('bg') === 'changed') {
+    form.style.backgroundColor = 'red';
+}
+
+checkbox.addEventListener('change', () => {
+    localStorage.setItem('isChecked', true);
+});
+
+change.addEventListener('click', () => {
+    if (localStorage.getItem('bg') === 'changed') {
+        localStorage.removeItem('bg');
+        form.style.backgroundColor = '';
+    } else {
+        localStorage.setItem('bg', 'changed');
+        form.style.backgroundColor = 'red';
+    }
+});
+
+при помещении в ключ localStorage каких-то массивов или объектов нужно переводить их в JSON (сериализация)
+потому что при попытке получить оттуда данные, мы будем получать строку [object Object]
+
+
+******************************************************
+Регулярные выражения
+******************************************************
+
+new RegExp('pattern', 'flags');
+
+реальный вариант:
+/pattern/flag
+
+pattern - шаблон/образец/тип, по котоорому мы будем работать в этом выражении
+flag - уточнение к этому поиску/запросу к шаблону
+i - игнорирует регистр букв в строке
+g - работает не только с одним символом/элементом, но со всеми, которые попадают под заданный паттерн
+m - работа с многострочными строками
+
+флаги можно комбинировать все вместе
+
+!!!
+очень сильный метод для работы со строками - match()
+возвращвет массив с заданными патернами, исходя из того, как настроены флаги
+например
+
+const ans = prompt('Введите свое имя');
+
+здесь мы ищем в строке из prompt паттерн 'n', то есть буквы n, которые есть в имени
+
+имя ANN
+const reg = /n/i;
+console.log(ans.match(reg));
+>>["N", index: 1, input: "ANN", groups: undefined]
+
+добавиим флаг g
+const reg = /n/ig;
+console.log(ans.match(reg));
+>>(2) ["N", "N"]
+
+!!!
+/./
+метод replace('что меняем', 'на что меняем')
+замена одного куска стоки на другой. классно работает для подмены пароя на звездочки
+регулярку вписываем прямо в аргументы метода
+
+если в качестве паттерна наисать точку, то это подразумевает любой символ строки
+
+например:
+
+const pass = prompt('password');
+
+console.log(pass.replace(/./g, '*'));
+>> при вводе пароля в лог выводятся только звездочки`
+
+если нужно найти именно точку, то в регулярке ее нужно экранировать обратным слешем:
+/\./
+
+еще один пример подмены с ходу:
+console.log('23-07-80'.replace(/-/g, '.'));
+>>23.07.80
+
+метод непосредственно самих регулярных выражений test()
+проверяет есть ли искомый патерн в строке, возвращает true/false
+
+!!!
+Классы регулярных выражений
+\d - ищет только цифры
+\w - ищет только слова
+\s - ищет пробелы
+\D - ищет все кроме цифр
+\W - ищет все кроме слов
+
+\ - и много других
+больше по символах тут: https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Regular_Expressions
+
 */
