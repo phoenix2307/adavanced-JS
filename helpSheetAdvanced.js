@@ -702,4 +702,61 @@ console.log('23-07-80'.replace(/-/g, '.'));
 \ - и много других
 больше по символах тут: https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Regular_Expressions
 
+******************************************
+ОБЬЕКТЫ. Геттеры и сеттеры
+******************************************
+Свойства обектов бывают свойствами данных и свойствами-акцессорами
+геттеры позволяют получать значения свойста
+сеттеры позволяют устанавливать значения свойств
+
+это как метод объекта, который использует this, но при его вызове мы не используем скобки, 
+а обращаемся к нему как свойству. Поэтому свойства-акцессоры
+
+const persone = {
+    name: 'Alex',
+    age: 40,
+
+    get userAge() {
+        return this.age;
+    }
+};
+
+console.log(persone.userAge);
+>> 40
+
+сеттер позволяет нам получать извне параметры, чтобы изменять/устанавливаьт значения свойств
+
+const persone = {
+    name: 'Alex',
+    age: 40,
+
+    get userAge() {
+        return this.age;
+    },
+
+    set userAge(num) {
+        this.age = num;
+    }
+};
+
+console.log(persone.userAge = 30);
+console.log(persone.userAge);
+>>30
+>>30
+
 */
+const persone = {
+    name: 'Alex',
+    age: 40,
+
+    get userAge() {
+        return this.age;
+    },
+
+    set userAge(num) {
+        this.age = num;
+    }
+};
+
+console.log(persone.userAge = 30);
+console.log(persone.userAge);
