@@ -843,7 +843,41 @@ const ivan = new User('Ivan', 27);
 // console.log(ivan.age);
 // а при присваивании свойсту нового значения, работает как сетер
 // ivan.age = 89;
-console.log(ivan.#
+
+
+*****************************************************************
+
+Домашнее задание по инкапсуляции
+обращение к приватным свойствам и их изменение
+
+class Alex {
+    constructor (name, age, proff) {
+        this.name = name;
+        this.age = age;
+        this.proff = proff;
+    }
+
+    #famil = 'Vanamaniuk';
+
+    do() {
+        console.log(`${this.name} ${this.#famil} имеет ${this.age} лет, и работает как ${this.proff}`);
+    }
+
+    get familAlex() {
+        return this.#famil;
+    }
+
+    set familAlex (surName) {
+        this.#famil = surName;
+    }
+}
+
+const alex = new Alex('Alex', 41, 'programmer');
+alex.do();
+
+console.log(alex.familAlex);
+alex.familAlex = 'tarasiuk';
+alex.do();
 
 *****************************************************************
 */
